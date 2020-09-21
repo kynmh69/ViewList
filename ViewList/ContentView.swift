@@ -72,3 +72,24 @@ func get_response(urlStr: String) {
             })
             task.resume()
 }
+
+func getImage(url:String) -> Void {
+    let url = URL(string: url)!
+    let task: URLSessionTask = URLSession.shared.dataTask(with: url, completionHandler: {(data, response, error) in
+                // コンソールに出力
+                print("data: \(String(describing: data))")
+                print("response: \(String(describing: response))")
+                print("error: \(String(describing: error))")
+        guard let jsonData = data else {
+                        return
+                    }
+                    
+                    do {
+                        let articles = try JSONDecoder().decode(InstagramApi.self, from: jsonData)
+                        print(articles)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+            })
+            task.resume()
+}
